@@ -1,8 +1,8 @@
 import * as React from 'react';
 import './App.css';
-import { SpeechRecognition } from  './SpeechSetup';
+import Speech from  './SpeechSetup';
 
-const recognition = new SpeechRecognition();
+const recognition = Speech.Recognition();
 recognition.lang = 'en-US';
 recognition.interimResults = true;
 
@@ -29,7 +29,7 @@ class App extends React.Component<{}, ITranscriber> {
     this.toggleRecording = this.toggleRecording.bind(this);
   }
 
-  transcriptUpdate(event: any) {
+  transcriptUpdate(event: SpeechRecognitionEvent) {
     var transcript = '';
     for (var i = 0; i < event.results.length; i++) {
       transcript += event.results[i][0].transcript;
@@ -61,9 +61,6 @@ class App extends React.Component<{}, ITranscriber> {
       </div>
     );
   }
-  // render() {
-  //   return (<h1>Hello World!</h1>);
-  // }
 }
 
 export default App;

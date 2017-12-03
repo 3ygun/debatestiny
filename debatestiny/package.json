@@ -18,6 +18,7 @@
     "@types/react-dom": "^16.0.3",
     "@types/react-redux": "^5.0.13",
     "@types/reactstrap": "^5.0.3",
+    "@types/webspeechapi": "^0.0.28",
     "react-scripts-ts": "2.8.0"
   },
   "scripts": {
