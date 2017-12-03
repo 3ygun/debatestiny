@@ -23,19 +23,21 @@ class App extends React.Component<{}, ITranscriber> {
   constructor(props: object) {
     super(props);
 
-    this.state = new Transcriber;
+    this.state = new Transcriber();
 
-    this.componentWillMount = this.componentWillMount.bind(this);
+    this.transcriptUpdate = this.transcriptUpdate.bind(this);
     this.toggleRecording = this.toggleRecording.bind(this);
   }
 
-  componentWillMount() {
-    recognition.onresult = (event: any) => {
-      const last = event.results.length - 1;
-      this.setState({
-        transcript: event.results[last][0].transcript,
-      });
-    };
+  transcriptUpdate(event: any) {
+    var transcript = '';
+    for (var i = 0; i < event.results.length; i++) {
+      transcript += event.results[i][0].transcript;
+    }
+
+    this.setState({
+      transcript: transcript,
+    });
   }
 
   toggleRecording() {
@@ -44,6 +46,8 @@ class App extends React.Component<{}, ITranscriber> {
   }
 
   render() {
+    recognition.onresult = this.transcriptUpdate;
+
     return (
       <div className="App">
         <h1>Speech to Text</h1>
