@@ -1,0 +1,11 @@
+.decoder {
+    text-align: center;
+}
+
+span.final {
+    color: black;
+}
+
+span.interim {
+    color: red;
+}

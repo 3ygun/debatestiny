@@ -1,12 +1,4 @@
-.App {
+.sectionTitle {
     text-align: center;
-    min-height: 200px;
-}
-
-span.Final {
-    color: black;
-}
-
-span.Interim {
-    color: red;
+    text-decoration: underline;
 }
