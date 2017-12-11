@@ -1,4 +1,9 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
+
+import { Dispatch, RootStateType, ActionType } from '../../constants/types';
+import { addFinalTranscript, setInterimTranscript } from '../../redux/app/actions';
+
 import Speech from '../SpeechSetup';
 import './Decoder.css';
 
@@ -7,70 +12,75 @@ recognition.lang = 'en-US';
 recognition.continuous = true; // Doesn't stop when user stops speeking
 recognition.interimResults = true;
 
-// tslint:disable-next-line:interface-name
-interface ITranscriber {
-    finalTranscript: string;
+interface Props {
     transcript: string;
-    running: boolean;
 }
 
-class Transcriber implements ITranscriber {
-    constructor(
-        public finalTranscript: string = '',
-        public transcript: string = '',
-        public running: boolean = false,
-    ) { }
+interface DispatchProps {
+    addFinalTranscript(t: string): ActionType<string>;
+    setInterimTranscript(t: string): ActionType<string>;
 }
 
-class Decoder extends React.Component<{}, ITranscriber> {
-    constructor(props: object) {
-        super(props);
+class Decoder extends React.Component<Props & DispatchProps, { running: boolean; }> {
+    state = {
+        running: false,
+    };
 
-        this.state = new Transcriber();
+    transcriptUpdate = (event: SpeechRecognitionEvent) => {
+        if (event && event.results) { // Make sure there are results
+            let transcript = '';
 
-        this.transcriptUpdate = this.transcriptUpdate.bind(this);
-        this.toggleRecording = this.toggleRecording.bind(this);
-    }
-
-    transcriptUpdate(event: SpeechRecognitionEvent) {
-        let transcript = '';
-
-        for (let i = event.resultIndex; i < event.results.length; ++i) {
-            if (event.results[i].isFinal) {
-                this.setState({ finalTranscript: this.state.finalTranscript + event.results[i][0].transcript, });
-            } else {
-                transcript += event.results[i][0].transcript;
+            for (let i = event.resultIndex; i < event.results.length; ++i) {
+                if (event.results[i].isFinal) {
+                    this.props.addFinalTranscript(event.results[i][0].transcript);
+                } else {
+                    transcript += event.results[i][0].transcript;
+                }
             }
-        }
 
-        this.setState({
-            transcript: transcript,
-        });
+            this.props.setInterimTranscript(transcript);
+        }
     }
 
-    toggleRecording() {
+    toggleRecognizer = () => {
         this.state.running ? recognition.stop() : recognition.start();
-        this.setState({ running: !this.state.running });
+        this.setState({
+            running: !this.state.running,
+        });
     }
 
     render() {
         recognition.onresult = this.transcriptUpdate;
-        recognition.onaudioend = this.toggleRecording;
+        recognition.onaudioend = this.transcriptUpdate;
 
         return (
             <div className="decoder">
                 <h5>Speech to Text</h5>
-                <button onClick={this.toggleRecording}>
-                    Toggle to {this.state.running ? 'Stop' : 'Start'}
+                <button onClick={this.toggleRecognizer}>
+                    {this.state.running ? 'Stop' : 'Start'}
                 </button>
                 <hr />
                 <div>
-                    <span className="final">{this.state.finalTranscript}</span>
-                    <span className="interim">{this.state.transcript}</span>
+                    <span className="interim">{this.props.transcript}</span>
                 </div>
             </div>
         );
     }
 }
 
-export default Decoder;
+const mapStateToProps = (rootState: RootStateType, ownProps: {}): Props => {
+    return {
+        transcript: rootState.app.transcript,
+    };
+};
+
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
+    return {
+        addFinalTranscript: (t: string) => dispatch(addFinalTranscript(t)),
+        setInterimTranscript: (t: string) => dispatch(setInterimTranscript(t)),
+    };
+};
+
+export default connect<Props, DispatchProps, {}>(
+    mapStateToProps,
+    mapDispatchToProps)(Decoder);
