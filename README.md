@@ -26,3 +26,8 @@ A debate help application which provides:
         - Replay from downloaded file
 - Note taking capibilities
 - Download/load data locally
+
+## Thank You
+
+- [React TS Starter - by rocky-jaiswal](https://github.com/rocky-jaiswal/react-ts-starter)
+    - Helped simplify my React Redux config
