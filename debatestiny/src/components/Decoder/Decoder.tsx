@@ -27,17 +27,19 @@ class Decoder extends React.Component<Props & DispatchProps, { running: boolean;
     };
 
     transcriptUpdate = (event: SpeechRecognitionEvent) => {
-        let transcript = '';
+        if (event && event.results) { // Make sure there are results
+            let transcript = '';
 
-        for (let i = event.resultIndex; i < event.results.length; ++i) {
-            if (event.results[i].isFinal) {
-                this.props.addFinalTranscript(event.results[i][0].transcript);
-            } else {
-                transcript += event.results[i][0].transcript;
+            for (let i = event.resultIndex; i < event.results.length; ++i) {
+                if (event.results[i].isFinal) {
+                    this.props.addFinalTranscript(event.results[i][0].transcript);
+                } else {
+                    transcript += event.results[i][0].transcript;
+                }
             }
-        }
 
-        this.props.setInterimTranscript(transcript);
+            this.props.setInterimTranscript(transcript);
+        }
     }
 
     toggleRecognizer = () => {
