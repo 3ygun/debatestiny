@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'reactstrap';
 import './App.css';
 
 import DebatestinyNavbar from '../Navbar/Navbar';
-import Decoder from '../Decoder/Decoder';
+import Conversation from '../Conversation/Conversation';
 
 interface ISection {
     title: string;
@@ -42,7 +42,7 @@ class App extends React.Component<{}, { collapsed: boolean }> {
                         <Section title="Notes" />
                         <Section title="Search" />
                         <Section title="Live">
-                            <Decoder />
+                            <Conversation />
                         </Section>
                     </Row>
                 </Container>
