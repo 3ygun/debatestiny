@@ -10,6 +10,8 @@ A debate help application which provides:
 - [ ] Note taking capibilities
 - [ ] Download/load data locally
 
+More details are in the [notes.md file](/notes.md)
+
 ## Technology
 
 - For Speech-to-text
