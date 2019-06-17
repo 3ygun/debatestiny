@@ -3,8 +3,9 @@
 <!-- TOC depthFrom:2 -->
 
 - [Run](#run)
-    - [Possible Fixes](#possible-fixes)
 - [Notes](#notes)
+- [Known Problems](#known-problems)
+    - [Firefox](#firefox)
 
 <!-- /TOC -->
 
@@ -13,14 +14,17 @@
 1. Install dependencies: `yarn install`
 1. Run the frontend: `yarn start`
 
-### Possible Fixes
-
-- If you get an error about `onaudioend` not being in the type `SpeechRecognition`
-    - Fix by modifying the `webspeechapi` node module to add `onaudioend: (ev: Event) => any;` to the `SpeechRecognition` interface
-
 ## Notes
 
 - Need to revert the `tslint.json` change to disable `no-any` checking
+
+## Known Problems
+
+### Firefox
+
+- Enable the `media.webspeech` API in `about:config` to get the page to load at all currently
+    - Should watch something like [enable Web Speech API on Firefox](https://stackoverflow.com/questions/38529098/enable-web-speech-api-on-mozilla-firefox)
+- If getting a `NS_ERROR_NOT_IMPLEMENTED` then comment out `recognition.continuous = true; // Doesn't stop when user stops speeking` as it doesn't seem to be implemented on Firefox even when you enable all the `media.webspeech` settings
 - When running on Firefox after clicking the `Start` button I get the following error:
 
 ```text
