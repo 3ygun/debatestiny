@@ -9,8 +9,10 @@ import './Decoder.css';
 
 const recognition = Speech.Recognition();
 recognition.lang = 'en-US';
-recognition.continuous = true; // Doesn't stop when user stops speeking
 recognition.interimResults = true;
+// Note : Firefox doesn't support currently support the below (one may get ``)
+recognition.continuous = true; // Doesn't stop when user stops speeking
+// Note : Firefox is also getting a InvalidStateError on the `toggleRecognizer` below (see README for more)
 
 interface Props {
     transcript: string;
@@ -26,7 +28,7 @@ class Decoder extends React.Component<Props & DispatchProps, { running: boolean;
         running: false,
     };
 
-    transcriptUpdate = (event: SpeechRecognitionEvent) => {
+    transcriptUpdate = (event: SpeechRecognitionEvent): any => {
         if (event && event.results) { // Make sure there are results
             let transcript = '';
 

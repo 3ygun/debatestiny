@@ -19,11 +19,11 @@ class DebatestinyNavbar extends React.Component<{}, { collapsed: boolean }> {
 
     render() {
         return (
-            <Navbar color="faded" expand="md" light>
+            <Navbar color="faded" expand="md" light={true}>
                 <NavbarBrand href="/">Debatestiny</NavbarBrand>
                 <NavbarToggler onClick={this.toggleNavbar} />
-                <Collapse isOpen={!this.state.collapsed} navbar>
-                    <Nav className="ml-auto" navbar>
+                <Collapse isOpen={!this.state.collapsed} navbar={true}>
+                    <Nav className="ml-auto" navbar={true}>
                         <NavItem>
                             <NavLink href="https://github.com/3ygun">By 3ygun</NavLink>
                         </NavItem>

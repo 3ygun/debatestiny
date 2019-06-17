@@ -4,9 +4,10 @@ import { Row } from 'reactstrap';
 
 import { RootStateType } from '../../constants/types';
 import Decoder from '../Decoder/Decoder';
+import { ImmutableArray } from 'seamless-immutable';
 
 interface Props {
-    currentTranscript: string[];
+    currentTranscript: ImmutableArray<string>;
 }
 
 class Conversation extends React.Component<Props, {}> {
@@ -15,7 +16,8 @@ class Conversation extends React.Component<Props, {}> {
             <div>
                 <Decoder />
                 <hr />
-                {this.props.currentTranscript.map((snippet, i) => {
+                {/* Doing the asMutable below because there didn't seem to be a map which had index?? */}
+                {this.props.currentTranscript.asMutable().map((snippet, i) => {
                     return (
                         <Row key={i}>
                             {snippet}

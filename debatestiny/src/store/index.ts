@@ -8,7 +8,7 @@ import { initialState as appInitialState } from '../redux/app';
 
 export function configureStore(): Store<RootStateType> {
 
-    const store = createStore<RootStateType>(
+    const store = createStore(
         createReducer(),
         {
             app: appInitialState,

@@ -17,7 +17,7 @@ const istate: AppStateType = {
 
 export const initialState = Immutable.from(istate); // Make Immutable?
 
-const appReducer = (state = initialState, action: ActionType<string>): AppStateType => {
+const appReducer = (state = initialState, action: ActionType<string>): Immutable.ImmutableObject<AppStateType> => {
     switch (action.type) {
 
         case TRANSCRIPT_FINAL_ADD:

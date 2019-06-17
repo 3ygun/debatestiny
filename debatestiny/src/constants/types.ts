@@ -1,4 +1,5 @@
-import { Dispatch as ReduxDispatch } from 'redux';
+import { Dispatch as ReduxDispatch, Action } from 'redux';
+import { ImmutableObject } from 'seamless-immutable';
 
 interface AppState {
     conversation: {
@@ -11,16 +12,14 @@ interface AppState {
 export type AppStateType = AppState;
 
 interface RootState {
-    app: AppState;
+    app: ImmutableObject<AppState>;
 }
 
 export type RootStateType = RootState;
 
-interface Action<T> {
+export type ActionType<T> = {
     type: string;
     transcript?: T;
-}
+};
 
-export type ActionType<T> = Action<T>;
-
-export type Dispatch = ReduxDispatch<RootState>;
+export type Dispatch = ReduxDispatch<Action>;

@@ -16,8 +16,8 @@ export default class Speech {
     static GrammarList(): SpeechGrammarList {
         try {
             return new SpeechGrammarList();
-         } catch (e) {
-             return new webkitSpeechGrammarList();
-         }
+        } catch (e) {
+            return new webkitSpeechGrammarList();
+        }
     }
 }
